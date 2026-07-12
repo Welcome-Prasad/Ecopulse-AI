@@ -1,4 +1,10 @@
 from machines.motor import Motor
+from machines.compressor import Compressor
+from machines.hvac import HVAC
+from machines.lighting import Lighting
+
+from logger import DataLogger
+from utils import current_time
 
 
 class Factory:
@@ -7,17 +13,18 @@ class Factory:
 
         self.machines = []
 
+        self.logger = DataLogger()
+
+        self.add_machine(Motor("M001"))
+        self.add_machine(Compressor("C001"))
+        self.add_machine(HVAC("H001"))
+        self.add_machine(Lighting("L001"))
+
     def add_machine(self, machine):
 
         self.machines.append(machine)
 
-    def load_default_factory(self):
-
-        self.add_machine(Motor("M001"))
-        self.add_machine(Motor("M002"))
-        self.add_machine(Motor("M003"))
-
-    def start(self):
+    def start_factory(self):
 
         for machine in self.machines:
             machine.turn_on()
@@ -25,10 +32,18 @@ class Factory:
     def update(self):
 
         for machine in self.machines:
+
             machine.update()
+
+            self.logger.log(
+                machine,
+                current_time()
+            )
 
     def display(self):
 
         for machine in self.machines:
+
             machine.display()
+
             print()

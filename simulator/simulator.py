@@ -1,9 +1,22 @@
-from machines.lighting import Lighting
+import time
 
-lighting = Lighting("L001")
+from factory import Factory
+from utils import current_time
 
-lighting.turn_on()
 
-lighting.update()
+factory = Factory()
 
-lighting.display()
+factory.start_factory()
+
+while True:
+
+    print("\n" + "=" * 70)
+    print("             EcoPulse AI Virtual Factory")
+    print("Time :", current_time())
+    print("=" * 70)
+
+    factory.update()
+
+    factory.display()
+
+    time.sleep(1)

@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual Environment
+.venv/
+venv/
+
+# VS Code
+.vscode/
+
+# Environment Variables
+.env
+
+# Generated datasets
+data/datasets/*.csv
+
+# SQLite Database (we'll add this later)
+database/*.db
