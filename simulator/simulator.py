@@ -1,7 +1,7 @@
 import time
 
-from factory import Factory
-from utils import current_time
+from simulator.factory import Factory
+from simulator.utils import current_time
 
 
 factory = Factory()

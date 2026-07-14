@@ -1,6 +1,6 @@
 import random
 
-from machine import Machine
+from simulator.machine import Machine
 
 
 class Compressor(Machine):

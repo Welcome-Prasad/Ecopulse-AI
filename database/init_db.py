@@ -1,14 +1,9 @@
 from db import Database
 
+db = Database()
 
-database = Database()
+db.create_tables()
 
-with open("database/schema.sql", "r") as file:
+db.close()
 
-    sql = file.read()
-
-database.execute(sql)
-
-database.close()
-
-print("Database created successfully.")
+print("Database initialized successfully.")

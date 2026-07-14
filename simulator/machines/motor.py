@@ -1,4 +1,4 @@
-from machine import Machine
+from simulator.machine import Machine
 
 
 class Motor(Machine):

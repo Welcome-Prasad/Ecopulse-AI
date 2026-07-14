@@ -8,25 +8,82 @@ class Database:
 
         os.makedirs("database", exist_ok=True)
 
-        self.connection = sqlite3.connect(
-            "database/eco.db"
-        )
+        self.connection = sqlite3.connect("database/eco.db")
 
         self.cursor = self.connection.cursor()
 
-    def execute(self, query, values=None):
+    def create_tables(self):
 
-        if values:
+        self.cursor.execute("""
+        CREATE TABLE IF NOT EXISTS machine_logs(
 
-            self.cursor.execute(query, values)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-        else:
+            timestamp TEXT,
 
-            self.cursor.execute(query)
+            machine_id TEXT,
+
+            machine_name TEXT,
+
+            voltage REAL,
+
+            current REAL,
+
+            power REAL,
+
+            temperature REAL,
+
+            efficiency REAL,
+
+            health REAL,
+
+            runtime INTEGER
+        )
+        """)
 
         self.connection.commit()
 
-    def fetchall(self):
+    def insert_machine(self, timestamp, machine):
+
+        self.cursor.execute("""
+
+        INSERT INTO machine_logs(
+
+            timestamp,
+            machine_id,
+            machine_name,
+            voltage,
+            current,
+            power,
+            temperature,
+            efficiency,
+            health,
+            runtime
+
+        )
+
+        VALUES(?,?,?,?,?,?,?,?,?,?)
+
+        """, (
+
+            timestamp,
+            machine.machine_id,
+            machine.name,
+            machine.voltage,
+            machine.current,
+            machine.power,
+            machine.temperature,
+            machine.efficiency,
+            machine.health,
+            machine.runtime
+
+        ))
+
+        self.connection.commit()
+
+    def get_all_logs(self):
+
+        self.cursor.execute("SELECT * FROM machine_logs")
 
         return self.cursor.fetchall()
 

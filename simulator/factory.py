@@ -1,10 +1,12 @@
-from machines.motor import Motor
-from machines.compressor import Compressor
-from machines.hvac import HVAC
-from machines.lighting import Lighting
+from simulator.machines.motor import Motor
+from simulator.machines.compressor import Compressor
+from simulator.machines.hvac import HVAC
+from simulator.machines.lighting import Lighting
 
-from logger import DataLogger
-from utils import current_time
+from simulator.logger import DataLogger
+from simulator.utils import current_time
+
+from database.db import Database
 
 
 class Factory:
@@ -14,6 +16,8 @@ class Factory:
         self.machines = []
 
         self.logger = DataLogger()
+
+        self.database = Database()
 
         self.add_machine(Motor("M001"))
         self.add_machine(Compressor("C001"))
@@ -35,9 +39,16 @@ class Factory:
 
             machine.update()
 
+            timestamp = current_time()
+
             self.logger.log(
                 machine,
-                current_time()
+                timestamp
+            )
+
+            self.database.insert_machine(
+                timestamp,
+                machine
             )
 
     def display(self):
